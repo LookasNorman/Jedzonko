@@ -28,12 +28,20 @@ class Page
      */
     private $title;
 
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
+
 
 
     /**

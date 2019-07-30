@@ -21,6 +21,26 @@ class RecipePlan
      */
     private $id;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Recipe", inversedBy="recipePlans")
+     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
+     */
+    private $recipe;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Plan", inversedBy="recipePlans")
+     * @ORM\JoinColumn(name="plan_id", referencedColumnName="id")
+     */
+    private $plan;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DayName", inversedBy="recipePlans")
+     * @ORM\JoinColumn(name="dayName_id", referencedColumnName="id")
+     */
+    private $dayName;
+
+
     /**
      * @var string
      *

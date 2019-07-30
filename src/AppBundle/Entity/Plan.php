@@ -22,6 +22,12 @@ class Plan
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="RecipePlan", mappedBy="plan")
+     */
+    private $recipePlans;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)

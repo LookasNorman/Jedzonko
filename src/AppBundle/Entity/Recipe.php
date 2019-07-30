@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Recipe
@@ -21,12 +22,24 @@ class Recipe
      */
     private $id;
 
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="RecipePlan", mappedBy="recipe")
+     */
+    private $recipePlans;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     /**
      * @var string

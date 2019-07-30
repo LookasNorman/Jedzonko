@@ -28,6 +28,13 @@ class DayName
      */
     private $dayName;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="RecipePlan", mappedBy="dayName")
+     */
+    private $recipePlans;
+
+
     /**
      * @var int
      *

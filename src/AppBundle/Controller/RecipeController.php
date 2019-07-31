@@ -31,7 +31,7 @@ class RecipeController extends Controller
     
     /**
      * @return Response
-     * @Route ("/recipe/list/{id}")
+     * @Route ("/recipe/{id}")
      */
     public function detailsAction(): Response
     {

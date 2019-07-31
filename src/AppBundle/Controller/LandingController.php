@@ -24,7 +24,7 @@ class LandingController extends Controller
      */
     public function recipesAction(): Response
     {
-        return $this->render('landing/recipes.html.twig', []);
+        return $this->render('dashboard/recipe/list.html.twig', []);
     }
     
     /**

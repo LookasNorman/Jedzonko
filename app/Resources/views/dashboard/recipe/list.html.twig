@@ -1,5 +1,7 @@
 {% extends "base_dashboard.html.twig" %}
+
 {% block title %}{% endblock %}
+
 {% block content %}
     <div class="dashboard-content border-dashed p-3 m-4 view-height">
 
@@ -8,7 +10,7 @@
                 <h3 class="color-header text-uppercase">Lista Przepisów</h3>
             </div>
             <div class="col noPadding d-flex justify-content-end mb-2">
-                <a href="/app-add-recipe.html" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
+                <a href="/recipe/add" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
             </div>
         </div>
         <table class="table border-bottom schedules-content">
@@ -22,7 +24,7 @@
             </thead>
             <tbody class="text-color-lighter">
             <tr class="d-flex">
-                <th scope="row" class="col-1">1</th>
+                <th scope="row" class="col-1">4</th>
                 <td class="col-2">
                     Zapiekanka z ziemniakami i brukselką
                 </td>

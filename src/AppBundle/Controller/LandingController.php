@@ -15,7 +15,7 @@ class LandingController extends Controller
      */
     public function indexAction(): Response
     {
-        return $this->render('landing/index.html.twig', []);
+        return $this->render("landing/index.html.twig");
     }
     
     /**

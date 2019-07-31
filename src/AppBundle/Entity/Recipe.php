@@ -55,6 +55,14 @@ class Recipe
      */
     private $description;
 
+
+    /**
+     * @ORM\Column(name ="preparation_method", type="text")
+     */
+    private $recipePreparationMethod;
+
+
+
     /**
      * @var \DateTime
      *
@@ -65,7 +73,7 @@ class Recipe
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetimetz")
+     * @ORM\Column(name="updated", type="datetimetz", nullable="true")
      */
     private $updated;
 
@@ -294,5 +302,21 @@ class Recipe
     public function getRecipePlans()
     {
         return $this->recipePlans;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecipePreparationMethod()
+    {
+        return $this->recipePreparationMethod;
+    }
+
+    /**
+     * @param mixed $recipePreparationMethod
+     */
+    public function setRecipePreparationMethod($recipePreparationMethod): void
+    {
+        $this->recipePreparationMethod = $recipePreparationMethod;
     }
 }

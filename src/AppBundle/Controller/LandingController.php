@@ -36,4 +36,22 @@ class LandingController extends Controller
     {
         return $this->render('landing/recipeDetails.html.twig', []);
     }
+    
+    /**
+     * @return Response
+     * @Route ("/about")
+     */
+    public function aboutAction(): Response
+    {
+        return $this->render('landing/about.html.twig', []);
+    }
+    
+    /**
+     * @return Response
+     * @Route ("/contact")
+     */
+    public function contactAction(): Response
+    {
+        return $this->render('landing/contact.html.twig', []);
+    }
 }

@@ -17,12 +17,21 @@ class LandingController extends Controller
     {
         return $this->render('landing/index.html.twig', []);
     }
-
+    
+    /**
+     * @return Response
+     * @Route ("/recipe/list")
+     */
     public function recipesAction(): Response
     {
         return $this->render('landing/recipes.html.twig', []);
     }
-
+    
+    /**
+     * @return Response
+     * @Route ("/recipe/list/{id}")
+     */
+    
     public function recipeDetailsAction(): Response
     {
         return $this->render('landing/recipeDetails.html.twig', []);

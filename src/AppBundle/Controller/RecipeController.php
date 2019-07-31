@@ -44,8 +44,8 @@ class RecipeController extends Controller
      */
     public function listAction(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $recipies = $em->getRepository(Recipe::class)->findBy([], ['votes' => 'desc', 'created' => 'asc']);
+//        $em = $this->getDoctrine()->getManager();
+//        $recipies = $em->getRepository(Recipe::class)->findBy([], ['votes' => 'desc', 'created' => 'asc']);
 
         return $this->render('dashboard/recipe/list.html.twig', array(
             'recipies_list' => 'test'

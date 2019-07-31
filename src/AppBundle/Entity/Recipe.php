@@ -261,5 +261,38 @@ class Recipe
     {
         return $this->votes;
     }
-}
 
+    /**
+     * Add recipePlan
+     *
+     * @param \AppBundle\Entity\RecipePlan $recipePlan
+     *
+     * @return Recipe
+     */
+    public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    {
+        $this->recipePlans[] = $recipePlan;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipePlan
+     *
+     * @param \AppBundle\Entity\RecipePlan $recipePlan
+     */
+    public function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    {
+        $this->recipePlans->removeElement($recipePlan);
+    }
+
+    /**
+     * Get recipePlans
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipePlans()
+    {
+        return $this->recipePlans;
+    }
+}

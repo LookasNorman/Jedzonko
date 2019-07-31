@@ -100,5 +100,45 @@ class DayName
     {
         return $this->dayOrder;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipePlans = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add recipePlan
+     *
+     * @param \AppBundle\Entity\RecipePlan $recipePlan
+     *
+     * @return DayName
+     */
+    public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    {
+        $this->recipePlans[] = $recipePlan;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipePlan
+     *
+     * @param \AppBundle\Entity\RecipePlan $recipePlan
+     */
+    public function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    {
+        $this->recipePlans->removeElement($recipePlan);
+    }
+
+    /**
+     * Get recipePlans
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipePlans()
+    {
+        return $this->recipePlans;
+    }
+}

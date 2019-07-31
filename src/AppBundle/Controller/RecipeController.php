@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Recipe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class RecipeController extends Controller
 {
@@ -44,6 +44,11 @@ class RecipeController extends Controller
      */
     public function listAction(): Response
     {
-        return $this->render('dashboard/recipe/list.html.twig', []);
+        $em = $this->getDoctrine()->getManager();
+        $recipies = $em->getRepository(Recipe::class)->findBy([], ['votes' => 'desc', 'created' => 'asc']);
+
+        return $this->render('dashboard/recipe/list.html.twig', array(
+            'recipies_list' => 'test'
+        ));
     }
 }

@@ -73,7 +73,7 @@ class Recipe
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetimetz", nullable="true")
+     * @ORM\Column(name="updated", type="datetimetz", nullable=true)
      */
     private $updated;
 

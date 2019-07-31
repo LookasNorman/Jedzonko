@@ -57,18 +57,4 @@ class PlanController extends Controller
     }
     
     
-    /**
-     * @return Response
-     * @Route("/test")
-     */
-    public function countPlanAction(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('AppBundle:Plan');
-        $plan = $repository->findAll();
-        $noPlan = count($plan);
-        
-        return new Response ('liczba planów : ' . $noPlan);
-        
-    }
 }

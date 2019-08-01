@@ -31,11 +31,16 @@ class PlanController extends Controller
     
     /**
      * @return Response
-     * @Route("/plan/{id}", name="plan_details")
+     * @Route("/plan/{id}", name="plan_details", methods={"GET"})
      */
     public function detailsAction($id): Response
     {
-        return $this->render('dashboard/plan/details.html.twig', []);
+        $em = $this->getDoctrine()->getManager();
+        $plan = $em->getRepository(Plan::class)->find($id);
+
+        return $this->render('dashboard/plan/details.html.twig', [
+            'plan' => $plan
+        ]);
     }
     
     /**

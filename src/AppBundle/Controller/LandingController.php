@@ -66,12 +66,16 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/recipe/list/{id}")
+     * @Route ("/recipe/list/{id}", name="recipe_details", methods={"GET"})
      */
     
-    public function recipeDetailsAction(): Response
+    public function recipeDetailsAction($id): Response
     {
-        return $this->render('landing/recipeDetails.html.twig', []);
+        $recipe = $this->getDoctrine()->getManager()->getRepository(Recipe::class)->find($id);
+
+        return $this->render('landing/recipeDetails.html.twig', [
+            'recipe' => $recipe
+        ]);
     }
     
     /**

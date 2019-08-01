@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\RecipePlan;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,9 +38,11 @@ class PlanController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $plan = $em->getRepository(Plan::class)->find($id);
+        $recipiesPlan = $em->getRepository(RecipePlan::class)->groupByDay($id);
 
         return $this->render('dashboard/plan/details.html.twig', [
-            'plan' => $plan
+            'plan' => $plan,
+            'recipiesPlan' => $recipiesPlan
         ]);
     }
     

@@ -20,7 +20,7 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/add.html.twig', []);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/edit/{id}")
@@ -29,7 +29,7 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/edit.html.twig', []);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/{id}", name="plan_details", methods={"GET"})
@@ -45,7 +45,7 @@ class PlanController extends Controller
             'recipiesPlan' => $recipiesPlan
         ]);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/list")
@@ -54,7 +54,7 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/list.html.twig', []);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/add/recipe ")
@@ -63,6 +63,6 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/addRecipe.html.twig', []);
     }
-    
-    
+
+
 }

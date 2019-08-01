@@ -31,9 +31,9 @@ class PlanController extends Controller
     
     /**
      * @return Response
-     * @Route("/plan/details")
+     * @Route("/plan/{id}", name="plan_details")
      */
-    public function detailsAction(): Response
+    public function detailsAction($id): Response
     {
         return $this->render('dashboard/plan/details.html.twig', []);
     }

@@ -43,7 +43,7 @@ class Recipe
 
     /**
      * @var string
-     *
+     * @ORM\Column(name="ingredients", type="string", length=255, unique=false)
      * @ORM\Column(name="ingredients", type="text")
      */
     private $ingredients;

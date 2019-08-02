@@ -87,7 +87,7 @@ class Recipe
     /**
      * @var int
      *
-     * @ORM\Column(name="votes", type="integer")
+     * @ORM\Column(name="votes", type="integer", nullable=true)
      */
     private $votes;
 

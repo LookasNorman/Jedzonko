@@ -30,9 +30,34 @@ class DashboardController extends Controller
         $recipe = $repository2->findAll();
         $noRecipes = count($recipe);
         
-        return $this->render('dashboard/index.html.twig', ['noPlans' => $noPlans,
-            'noRecipes'=>$noRecipes]);
+        //last Plan Name
+        $query = $em->createQuery('SELECT p FROM AppBundle\Entity\Plan p ORDER BY p.created DESC');
+        $plans = $query->getResult();
+        $lastPlanId=$plans[0]->getId();
+        $lastPlanName=$plans[0]->getName();
+        
+        
+        return $this->render('dashboard/index.html.twig', [
+            'noPlans' => $noPlans,
+            'noRecipes'=>$noRecipes,
+            'lastPlanName'=>$lastPlanName]);
     }
     
+    /**
+     * @Route("/lastPlan")
+     */
+    public function lastPlanAction():Response
+    {
+        $em=$this->getDoctrine()->getManager();
+        //$query = $em->createQuery('SELECT u FROM MyProject\Model\User u WHERE u.age > 20');
+        $query = $em->createQuery('SELECT p FROM AppBundle\Entity\Plan p ORDER BY p.created DESC');
+        $plans = $query->getResult();
+        $lastPlanId=$plans[0]->getId();
+        $lastPlanName=$plans[0]->getName();
+        
+        var_dump($recentPlanName);
+        
+        return new Response();
+    }
     
 }

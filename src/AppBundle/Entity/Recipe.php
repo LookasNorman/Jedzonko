@@ -36,11 +36,6 @@ class Recipe
      */
     private $recipePlans;
 
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
-
     /**
      * @var string
      *
@@ -60,7 +55,6 @@ class Recipe
      * @ORM\Column(name ="preparation_method", type="text")
      */
     private $recipePreparationMethod;
-
 
 
     /**
@@ -91,6 +85,11 @@ class Recipe
      */
     private $votes;
 
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+        $this->created = new \DateTime();
+    }
 
     /**
      * Get id
@@ -174,26 +173,29 @@ class Recipe
         return $this->description;
     }
 
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Recipe
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
+    // Jeśli ktoś będzie potrzebował setCreated() to odkomentowąć, constructor automatycznie ustawia datę.
 
-        return $this;
-    }
+//    /**
+//     * Set created
+//     *
+//     * @param \DateTime $created
+//     *
+//     * @return Recipe
+//     */
+//    public function setCreated($created)
+//    {
+//        $this->created = $created;
+//
+//        return $this;
+//    }
 
     /**
      * Get created
      *
      * @return \DateTime
      */
-    public function getCreated()
+    public
+    function getCreated()
     {
         return $this->created;
     }
@@ -205,7 +207,8 @@ class Recipe
      *
      * @return Recipe
      */
-    public function setUpdated($updated)
+    public
+    function setUpdated($updated)
     {
         $this->updated = $updated;
 
@@ -217,7 +220,8 @@ class Recipe
      *
      * @return \DateTime
      */
-    public function getUpdated()
+    public
+    function getUpdated()
     {
         return $this->updated;
     }
@@ -229,7 +233,8 @@ class Recipe
      *
      * @return Recipe
      */
-    public function setPreparationTime($preparationTime)
+    public
+    function setPreparationTime($preparationTime)
     {
         $this->preparationTime = $preparationTime;
 
@@ -241,7 +246,8 @@ class Recipe
      *
      * @return int
      */
-    public function getPreparationTime()
+    public
+    function getPreparationTime()
     {
         return $this->preparationTime;
     }
@@ -253,7 +259,8 @@ class Recipe
      *
      * @return Recipe
      */
-    public function setVotes($votes)
+    public
+    function setVotes($votes)
     {
         $this->votes = $votes;
 
@@ -265,7 +272,8 @@ class Recipe
      *
      * @return int
      */
-    public function getVotes()
+    public
+    function getVotes()
     {
         return $this->votes;
     }
@@ -277,7 +285,8 @@ class Recipe
      *
      * @return Recipe
      */
-    public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    public
+    function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
         $this->recipePlans[] = $recipePlan;
 
@@ -289,7 +298,8 @@ class Recipe
      *
      * @param \AppBundle\Entity\RecipePlan $recipePlan
      */
-    public function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
+    public
+    function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
         $this->recipePlans->removeElement($recipePlan);
     }
@@ -299,7 +309,8 @@ class Recipe
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRecipePlans()
+    public
+    function getRecipePlans()
     {
         return $this->recipePlans;
     }
@@ -307,7 +318,8 @@ class Recipe
     /**
      * @return mixed
      */
-    public function getRecipePreparationMethod()
+    public
+    function getRecipePreparationMethod()
     {
         return $this->recipePreparationMethod;
     }
@@ -315,7 +327,8 @@ class Recipe
     /**
      * @param mixed $recipePreparationMethod
      */
-    public function setRecipePreparationMethod($recipePreparationMethod): void
+    public
+    function setRecipePreparationMethod($recipePreparationMethod): void
     {
         $this->recipePreparationMethod = $recipePreparationMethod;
     }

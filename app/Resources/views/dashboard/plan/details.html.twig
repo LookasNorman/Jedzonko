@@ -30,8 +30,8 @@
                 </div>
             </div>
 
-            {% for daysName in recipiesDay %}
-                {% for day, recipies in daysName %}
+            {% for daysName in recipesDay %}
+                {% for day, recipes in daysName %}
                 <table class="table">
                     <thead>
                     <tr class="d-flex">
@@ -42,7 +42,7 @@
                     </tr>
                     </thead>
                     <tbody class="text-color-lighter">
-                    {% for recipe in recipies %}
+                    {% for recipe in recipes %}
                     <tr class="d-flex">
                         <td class="col-2">{{ recipe.mealName }}</td>
                         <td class="col-7">{{ recipe.recipe.name }}</td>

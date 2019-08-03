@@ -32,7 +32,7 @@ class PlanController extends Controller
 
     /**
      * @return Response
-     * @Route("/plan/{id}", name="plan_details", methods={"GET"})
+     * @Route("/plan/list/{id}", name="plan_details", methods={"GET"})
      */
     public function detailsAction($id): Response
     {
@@ -43,10 +43,10 @@ class PlanController extends Controller
         $plan = $em->getRepository(Plan::class)->find($id);
 
         //Get all recipe for plan
-        $recipiesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
+        $recipesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
 
         //Get days for recipe plan and remove duplicate
-        foreach ($recipiesPlan as $key => $recipePlan) {
+        foreach ($recipesPlan as $key => $recipePlan) {
             if (!in_array($recipePlan->getDayName(), $daysName)) {
                 $daysName [] = $recipePlan->getDayName();
             }
@@ -58,14 +58,14 @@ class PlanController extends Controller
 
         //Get recipe for day
         foreach ($daysName as $dayName) {
-            $recipiesDay [][$dayName->getDayName()] = $em
+            $recipesDay [][$dayName->getDayName()] = $em
                 ->getRepository(RecipePlan::class)
                 ->findBy(['dayName' => $dayName], ['mealOrder' => 'asc']);
         }
 
         return $this->render('dashboard/plan/details.html.twig', [
             'plan' => $plan,
-            'recipiesDay' => $recipiesDay
+            'recipesDay' => $recipesDay
         ]);
     }
 
@@ -75,7 +75,10 @@ class PlanController extends Controller
      */
     public function listAction(): Response
     {
-        return $this->render('dashboard/plan/list.html.twig', []);
+        $plans = $this->getDoctrine()->getManager()->getRepository(Plan::class)->findAll();
+        return $this->render('dashboard/plan/list.html.twig', [
+            'plans' => $plans
+        ]);
     }
 
     /**

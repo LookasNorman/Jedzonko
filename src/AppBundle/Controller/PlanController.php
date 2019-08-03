@@ -45,15 +45,22 @@ class PlanController extends Controller
         //Get all recipe for plan
         $recipiesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
 
-        //Get days for recipe and remove duplicate
-        foreach ($recipiesPlan as $key => $recipePlan){
-            if(!in_array($recipePlan->getDayName(), $daysName)){
+        //Get days for recipe plan and remove duplicate
+        foreach ($recipiesPlan as $key => $recipePlan) {
+            if (!in_array($recipePlan->getDayName(), $daysName)) {
                 $daysName [] = $recipePlan->getDayName();
-                $recipiesDay [][$recipePlan->getDayName()->getDayName()] = $em
-                    ->getRepository(RecipePlan::class)
-                    ->findBy(['dayName' => $recipePlan->getDayName()], ['mealOrder' => 'asc']);
             }
+        }
+        //Sort day name
+        usort($daysName, function ($a, $b) {
+            return strcmp($a->getDayOrder(), $b->getDayOrder());
+        });
 
+        //Get recipe for day
+        foreach ($daysName as $dayName) {
+            $recipiesDay [][$dayName->getDayName()] = $em
+                ->getRepository(RecipePlan::class)
+                ->findBy(['dayName' => $dayName], ['mealOrder' => 'asc']);
         }
 
         return $this->render('dashboard/plan/details.html.twig', [

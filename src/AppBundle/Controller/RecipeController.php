@@ -24,7 +24,7 @@ class RecipeController extends Controller
     {
         $recipe = new Recipe();
         $form = $this->createFormBuilder($recipe)
-            ->setAction($this->generateUrl('app_recipe_add'))
+            ->setAction($this->generateUrl('recipe_add'))
             ->add('name', TextType::class, ['label' => 'Nazwa Przepisu'])
             ->add('description', TextType::class, ['label' => 'Opis przepisu'])
             ->add('preparationTime', NumberType::class, ['label' => 'Przygotowanie(minuty)'])

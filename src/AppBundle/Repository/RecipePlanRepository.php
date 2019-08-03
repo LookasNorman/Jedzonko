@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class RecipePlanRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function groupByDay($id)
+    {
+        return $this->createQueryBuilder('rp')
+            ->where('rp.plan= :id')
+            ->setParameter('id', $id)
+            ->groupBy('rp.dayName')
+            ->getQuery()
+            ->getResult();
+    }
 }

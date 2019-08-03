@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\RecipePlan;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/add.html.twig', []);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/edit/{id}")
@@ -28,16 +29,39 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/edit.html.twig', []);
     }
-    
+
     /**
      * @return Response
-     * @Route("/plan/details")
+     * @Route("/plan/{id}", name="plan_details", methods={"GET"})
      */
-    public function detailsAction(): Response
+    public function detailsAction($id): Response
     {
-        return $this->render('dashboard/plan/details.html.twig', []);
+        $daysName = [];
+        $em = $this->getDoctrine()->getManager();
+
+        //Get plan
+        $plan = $em->getRepository(Plan::class)->find($id);
+
+        //Get all recipe for plan
+        $recipiesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
+
+        //Get days for recipe and remove duplicate
+        foreach ($recipiesPlan as $key => $recipePlan){
+            if(!in_array($recipePlan->getDayName(), $daysName)){
+                $daysName [] = $recipePlan->getDayName();
+                $recipiesDay [][$recipePlan->getDayName()->getDayName()] = $em
+                    ->getRepository(RecipePlan::class)
+                    ->findBy(['dayName' => $recipePlan->getDayName()], ['mealOrder' => 'asc']);
+            }
+
+        }
+
+        return $this->render('dashboard/plan/details.html.twig', [
+            'plan' => $plan,
+            'recipiesDay' => $recipiesDay
+        ]);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/list")
@@ -46,7 +70,7 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/list.html.twig', []);
     }
-    
+
     /**
      * @return Response
      * @Route("/plan/add/recipe ")
@@ -55,6 +79,6 @@ class PlanController extends Controller
     {
         return $this->render('dashboard/plan/addRecipe.html.twig', []);
     }
-    
-    
+
+
 }

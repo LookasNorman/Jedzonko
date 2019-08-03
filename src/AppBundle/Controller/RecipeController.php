@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Recipe;
+use http\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -47,8 +49,14 @@ class RecipeController extends Controller
      * @return Response
      * @Route("recipe/modify/{id}")
      */
-    public function editAction(): Response
+    public function editAction($id): Response
     {
+        $repository = $this->getDoctrine()->getManager()->getRepository(Recipe::class);
+        $existingRecipe = $repository->find($id);
+        if (!$existingRecipe instanceof Recipe) {
+            throw new NotFoundHttpException('Brak przepisu');
+        }
+
         return $this->render('dashboard/recipe/edit.html.twig', []);
     }
 

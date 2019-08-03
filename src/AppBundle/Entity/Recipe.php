@@ -4,8 +4,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Recipe
+ *
+ * @UniqueEntity(
+ *     fields={"name"}, message="Recipe name alredy exist"
+ * )
  *
  * @ORM\Table(name="recipe")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecipeRepository")
@@ -302,5 +308,31 @@ class Recipe
     public function getIngredients()
     {
         return $this->ingredients;
+    }
+
+    /**
+     * Add ingredient.
+     *
+     * @param \AppBundle\Entity\Ingredients $ingredient
+     *
+     * @return Recipe
+     */
+    public function addIngredient(\AppBundle\Entity\Ingredients $ingredient)
+    {
+        $this->ingredients[] = $ingredient;
+
+        return $this;
+    }
+
+    /**
+     * Remove ingredient.
+     *
+     * @param \AppBundle\Entity\Ingredients $ingredient
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeIngredient(\AppBundle\Entity\Ingredients $ingredient)
+    {
+        return $this->ingredients->removeElement($ingredient);
     }
 }

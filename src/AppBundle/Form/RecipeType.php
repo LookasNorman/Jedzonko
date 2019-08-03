@@ -18,15 +18,18 @@ class RecipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'error_bubbling' => true
+            ])
             ->add('description', TextType::class)
             ->add('recipePreparationMethod', TextType::class)
             ->add('preparationTime', NumberType::class)
-            ->add('ingredients', EntityType::class, [
-                'class' => Ingredients::class,
-                'choice_label' => 'ingredient',
-                'placeholder' => 'Choose an ingredient'
-            ]);
+//            ->add('ingredients', EntityType::class, [
+//                'class' => Ingredients::class,
+//                'choice_label' => 'ingredient',
+//                'placeholder' => 'Choose an ingredient'
+//            ])
+        ;
     }
 
     /**

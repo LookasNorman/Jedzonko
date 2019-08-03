@@ -32,7 +32,7 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/recipe/list")
+     * @Route ("/recipe/list", name="recipe_list")
      */
     public function recipesAction(Request $request): Response
     {
@@ -44,7 +44,7 @@ class LandingController extends Controller
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
+            50 /*limit per page*/
         );
 
         return $this->render('dashboard/recipe/list.html.twig', ['pagination' => $pagination]);

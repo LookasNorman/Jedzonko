@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Recipe;
-use http\Exception;
+use AppBundle\Form\RecipeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +49,7 @@ class RecipeController extends Controller
      * @return Response
      * @Route("recipe/modify/{id}")
      */
-    public function editAction($id): Response
+    public function editAction($id, Request $request): Response
     {
         $repository = $this->getDoctrine()->getManager()->getRepository(Recipe::class);
         $existingRecipe = $repository->find($id);
@@ -57,7 +57,27 @@ class RecipeController extends Controller
             throw new NotFoundHttpException('Brak przepisu');
         }
 
-        return $this->render('dashboard/recipe/edit.html.twig', []);
+        $recipe = new Recipe();
+        $recipe->setName($existingRecipe->getName());
+        $recipe->setDescription($existingRecipe->getDescription());
+        $recipe->setPreparationTime($existingRecipe->getPreparationTime());
+        $recipe->setRecipePreparationMethod($existingRecipe->getRecipePreparationMethod());
+
+        $form = $this->createForm(RecipeType::class, $recipe);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recipe = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recipe);
+            $em->flush();
+            return $this->redirectToRoute('recipe_list');
+        }
+
+        return $this->render('dashboard/recipe/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
 

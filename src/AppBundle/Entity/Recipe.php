@@ -30,6 +30,7 @@ class Recipe
      * @ORM\JoinTable(name="recipes_ingredients")
      */
     private $ingredients;
+
     public function __construct()
     {
         $this->recipePlans = new ArrayCollection();

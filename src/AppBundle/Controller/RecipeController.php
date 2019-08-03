@@ -17,7 +17,7 @@ class RecipeController extends Controller
 {
     /**
      * @return Response
-     * @Route("/recipe/add/")
+     * @Route("/recipe/add/", name="recipe_add")
      *
      */
     public function addAction(Request $request): Response

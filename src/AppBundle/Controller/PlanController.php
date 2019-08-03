@@ -57,6 +57,8 @@ class PlanController extends Controller
      */
     public function listAction(): Response
     {
+        $session = $this->get('session');
+        $session->remove('plan_id');
         $plans = $this->getDoctrine()->getManager()->getRepository(Plan::class)->findAll();
         return $this->render('dashboard/plan/list.html.twig', [
             'plans' => $plans

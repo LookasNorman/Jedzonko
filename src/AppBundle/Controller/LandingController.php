@@ -52,7 +52,7 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/recipe/list/{id}", name="recipe_details", methods={"GET"})
+     * @Route ("/recipe/{id}", name="recipe_details", methods={"GET"})
      */
     
     public function recipeDetailsAction($id): Response

@@ -40,32 +40,10 @@ class PlanController extends Controller
      */
     public function detailsAction($id): Response
     {
-        $daysName = [];
-        $em = $this->getDoctrine()->getManager();
+        $planDetails = $this->planDetails($id);
+        $plan = $planDetails[0];
+        $recipesDay = $planDetails[1];
 
-        //Get plan
-        $plan = $em->getRepository(Plan::class)->find($id);
-
-        //Get all recipe for plan
-        $recipesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
-
-        //Get days for recipe plan and remove duplicate
-        foreach ($recipesPlan as $key => $recipePlan) {
-            if (!in_array($recipePlan->getDayName(), $daysName)) {
-                $daysName [] = $recipePlan->getDayName();
-            }
-        }
-        //Sort day name
-        usort($daysName, function ($a, $b) {
-            return strcmp($a->getDayOrder(), $b->getDayOrder());
-        });
-
-        //Get recipe for day
-        foreach ($daysName as $dayName) {
-            $recipesDay [][$dayName->getDayName()] = $em
-                ->getRepository(RecipePlan::class)
-                ->findBy(['dayName' => $dayName], ['mealOrder' => 'asc']);
-        }
 
         return $this->render('dashboard/plan/details.html.twig', [
             'plan' => $plan,
@@ -127,12 +105,61 @@ class PlanController extends Controller
             $em->persist($recipePlan);
             $em->flush();
 
-            return $this->redirect('/new_plan_details');
+            return $this->redirectToRoute('new_plan_details', [
+                'id' => $planId
+            ]);
         }
 
         return $this->render('dashboard/plan/addRecipe.html.twig', [
             'plan' => $plan,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/newPlanDetails/{id}", name="new_plan_details", methods={"GET"})
+     */
+    public function newPlanDetails($id)
+    {
+        $planDetails = $this->planDetails($id);
+        $plan = $planDetails[0];
+        $recipesDay = $planDetails[1];
+
+        return $this->render('dashboard/plan/newPlanDetails.html.twig', [
+            'plan' => $plan,
+            'recipesDay' => $recipesDay
+        ]);
+    }
+
+    private function planDetails($id)
+    {
+        $daysName = [];
+        $em = $this->getDoctrine()->getManager();
+
+        //Get plan
+        $plan = $em->getRepository(Plan::class)->find($id);
+
+        //Get all recipe for plan
+        $recipesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
+
+        //Get days for recipe plan and remove duplicate
+        foreach ($recipesPlan as $key => $recipePlan) {
+            if (!in_array($recipePlan->getDayName(), $daysName)) {
+                $daysName [] = $recipePlan->getDayName();
+            }
+        }
+        //Sort day name
+        usort($daysName, function ($a, $b) {
+            return strcmp($a->getDayOrder(), $b->getDayOrder());
+        });
+
+        //Get recipe for day
+        foreach ($daysName as $dayName) {
+            $recipesDay [][$dayName->getDayName()] = $em
+                ->getRepository(RecipePlan::class)
+                ->findBy(['dayName' => $dayName], ['mealOrder' => 'asc']);
+        }
+
+        return array($plan, $recipesDay);
     }
 }

@@ -98,11 +98,15 @@ class PlanController extends Controller
      */
     public function addPlanDetails(Request $request)
     {
+        //Check is set session plan_id
         $session = $this->get('session');
         if(!$session->get('plan_id')){
             throw new AccessDeniedHttpException('Brak id planu');
         }
-        return $this->render('dashboard/plan/addRecipe.html.twig', []);
+        
+        return $this->render('dashboard/plan/addRecipe.html.twig', [
+            'plan' => $plan
+        ]);
     }
 
 

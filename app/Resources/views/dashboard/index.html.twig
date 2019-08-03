@@ -38,8 +38,16 @@
         <h2 class="dashboard-content-title">
             <span>Ostatnio dodany plan:</span> {{ lastPlanName }}
         </h2>
+
+
         <table class="table">
             <thead>
+
+            {% for a in range(0,res|length-1) %}
+            {% set id_day=res[a][1] %}
+            {% set licznik = res[a][2] %}
+            {% set break = false %}
+
             <tr class="d-flex">
                 <th class="col-2">Poniedziałek</th>
                 <th class="col-8"></th>
@@ -91,4 +99,6 @@
             </tbody>
         </table>
     </div>
+                
+    {% endfor %}
 {% endblock content %}

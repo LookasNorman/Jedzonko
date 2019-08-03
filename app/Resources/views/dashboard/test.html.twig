@@ -1,0 +1,36 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block content %}
+
+    {% for a in range(0,res|length-1) %}
+
+
+        {% set id_day=res[a][1] %}
+        {% set licznik = res[a][2] %}
+        {% set break = false %}
+
+        {% for x in range (0,rp|length-1) if not break %}
+            {% if (id_day == rp[x].DayName.Id()) %}
+                {{ rp[x].DayName.DayName() }}<br>
+                {% set break = true %}
+            {% endif %}
+        {% endfor %}
+
+
+        {% for b in range (0,rp|length-1) %}
+
+            {% if (id_day == rp[b].DayName.Id) %}
+
+                {{ rp[b].MealName }}
+                {{ rp[b].Recipe.Name }}<br>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+
+    {% endfor %}
+
+{% endblock content %}
+

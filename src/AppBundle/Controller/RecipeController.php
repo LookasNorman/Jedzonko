@@ -72,8 +72,8 @@ class RecipeController extends Controller
         }
 
         $form = $this->createForm(RecipeType::class, $recipe);
-        $recipe = new RecipesIngredients();
-        $form = $this->createForm(RecipesIngredientsType::class, $recipe);
+//        $recipe = new RecipesIngredients();
+//        $form = $this->createForm(RecipesIngredientsType::class, $recipe);
 
         $form->handleRequest($request);
 

@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Ingredients;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,14 +26,14 @@ class RecipeType extends AbstractType
             ->add('description', TextType::class)
             ->add('recipePreparationMethod', TextType::class)
             ->add('preparationTime', NumberType::class)
-            ->add('ingredients', EntityType::class, [
-                'class' => Ingredients::class,
-                'choice_label' => 'ingredient',
+            ->add('recipesIngredients', CollectionType::class, [
+                'entry_type' => RecipesIngredientsType::class,
+                'entry_options' => ['label' => false]
+//                'choice_label' => 'recipeIngredient',
 //                'label' => 'Choose an ingredient',
-                'multiple' => true,
-                'expanded' => true
-            ])
-        ;
+//                'multiple' => true,
+//                'expanded' => true
+            ]);
     }
 
     /**

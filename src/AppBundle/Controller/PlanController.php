@@ -36,13 +36,29 @@ class PlanController extends Controller
      */
     public function detailsAction($id): Response
     {
+        $daysName = [];
         $em = $this->getDoctrine()->getManager();
+
+        //Get plan
         $plan = $em->getRepository(Plan::class)->find($id);
-        $recipiesPlan = $em->getRepository(RecipePlan::class)->groupByDay($id);
+
+        //Get all recipe for plan
+        $recipiesPlan = $em->getRepository(RecipePlan::class)->findBy(['plan' => $id]);
+
+        //Get days for recipe and remove duplicate
+        foreach ($recipiesPlan as $key => $recipePlan){
+            if(!in_array($recipePlan->getDayName(), $daysName)){
+                $daysName [] = $recipePlan->getDayName();
+                $recipiesDay [][$recipePlan->getDayName()->getDayName()] = $em
+                    ->getRepository(RecipePlan::class)
+                    ->findBy(['dayName' => $recipePlan->getDayName()], ['mealOrder' => 'asc']);
+            }
+
+        }
 
         return $this->render('dashboard/plan/details.html.twig', [
             'plan' => $plan,
-            'recipiesPlan' => $recipiesPlan
+            'recipiesDay' => $recipiesDay
         ]);
     }
 

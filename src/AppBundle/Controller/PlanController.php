@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\RecipePlan;
+use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Plan;
 use AppBundle\Form\RecipePlanType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class PlanController extends Controller
@@ -20,9 +22,35 @@ class PlanController extends Controller
      * @return Response
      * @Route("/plan/add/")
      */
-    public function addAction(): Response
+    public function addAction(Request $request, Session $session): Response
     {
-        return $this->render('dashboard/plan/add.html.twig', []);
+        if($request->isMethod('post') !== true) {
+            return $this->render('dashboard/plan/add.html.twig', []);
+        }
+
+        if($request->isMethod('post')) {
+            if($request->get('planName') !== NULL){
+                $planName = $request->get('planName');
+            }
+
+            if($request->get('planDescription') !== NULL){
+                $planDescription = $request->get('planDescription');
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $newPlan = new Plan();
+            $newPlan->setName($planName);
+            $newPlan->setDescription($planDescription);
+            $dateTime = new \DateTime();
+            $newPlan->setCreated($dateTime);
+
+            $em->persist($newPlan);
+            $em->flush();
+
+            $session->set('plan_id', $newPlan->getId());
+
+            return $this->redirectToRoute('add_plan_details');
+        }
     }
 
     /**

@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use AppBundle\Entity\Plan;
+use AppBundle\Form\RecipePlanType;
 
 
 class PlanController extends Controller
@@ -94,23 +94,46 @@ class PlanController extends Controller
 
     /**
      * @return Response
-     * @Route("/plan/add/details", methods={"GET"}, name="add_plan_details")
+     * @Route("/plan/add/details", methods={"GET", "POST"}, name="add_plan_details")
      */
     public function addPlanDetails(Request $request)
     {
         //Check is set session plan_id
-        $session = $this->get('session');
-        $session->set('plan_id', 1);
-        if(!$session->get('plan_id')){
-            throw new AccessDeniedHttpException('Brak id planu');
+        if($request->isMethod('GET')){
+            $session = $this->get('session');
+            if (!$session->get('plan_id')) {
+                throw new AccessDeniedHttpException('Brak id planu');
+            }
         }
         $planId = $session->get('plan_id');
         //Get plan
         $plan = $this->getDoctrine()->getManager()->getRepository(Plan::class)->find($planId);
+        $recipePlan = new RecipePlan();
+        //Add plan to recipePlan
+        $recipePlan->setPlan($plan);
+
+        $form = $this->createForm(RecipePlanType::class, $recipePlan);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recipePlan = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recipePlan);
+            $em->flush();
+
+            return $this->redirectToRoute('plan_details', [
+                'id' => $planId
+            ]);
+        }
+
         return $this->render('dashboard/plan/addRecipe.html.twig', [
-            'plan' => $plan
+            'plan' => $plan,
+            'form' => $form->createView()
         ]);
     }
+
+
 
 
 }

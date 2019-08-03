@@ -1,11 +1,8 @@
 <?php
-
 namespace AppBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
-
 /**
  * Recipe
  *
@@ -20,68 +17,48 @@ class Recipe
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-
     /**
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
-
-
     /**
      * @ORM\OneToMany(targetEntity="RecipePlan", mappedBy="recipe")
      */
     private $recipePlans;
-
-
-
     /**
      * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
      * @ORM\JoinTable(name="recipes_ingredients")
      */
     private $ingredients;
-
-
     public function __construct()
     {
         $this->recipePlans = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
-
     /**
      * @ORM\Column(name="description", type="text")
      */
     private $description;
-
-
     /**
      * @ORM\Column(name ="preparation_method", type="text")
      */
     private $recipePreparationMethod;
-
-
-
     /**
      * @ORM\Column(name="created", type="datetimetz")
      */
     private $created;
-
     /**
      * @ORM\Column(name="updated", type="datetimetz", nullable=true)
      */
     private $updated;
-
     /**
      * @ORM\Column(name="preparation_time", type="integer")
      */
     private $preparationTime;
-
     /**
      * @ORM\Column(name="votes", type="integer", nullable=true)
      */
     private $votes;
-
-
     /**
      * Get id
      *
@@ -91,7 +68,6 @@ class Recipe
     {
         return $this->id;
     }
-
     /**
      * Set name
      *
@@ -102,10 +78,8 @@ class Recipe
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
-
     /**
      * Get name
      *
@@ -115,9 +89,6 @@ class Recipe
     {
         return $this->name;
     }
-
-
-
     /**
      * Set description
      *
@@ -128,10 +99,8 @@ class Recipe
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
-
     /**
      * Get description
      *
@@ -141,7 +110,6 @@ class Recipe
     {
         return $this->description;
     }
-
     /**
      * Set created
      *
@@ -152,10 +120,8 @@ class Recipe
     public function setCreated($created)
     {
         $this->created = $created;
-
         return $this;
     }
-
     /**
      * Get created
      *
@@ -165,7 +131,6 @@ class Recipe
     {
         return $this->created;
     }
-
     /**
      * Set updated
      *
@@ -176,10 +141,8 @@ class Recipe
     public function setUpdated($updated)
     {
         $this->updated = $updated;
-
         return $this;
     }
-
     /**
      * Get updated
      *
@@ -189,7 +152,6 @@ class Recipe
     {
         return $this->updated;
     }
-
     /**
      * Set preparationTime
      *
@@ -200,10 +162,8 @@ class Recipe
     public function setPreparationTime($preparationTime)
     {
         $this->preparationTime = $preparationTime;
-
         return $this;
     }
-
     /**
      * Get preparationTime
      *
@@ -213,7 +173,6 @@ class Recipe
     {
         return $this->preparationTime;
     }
-
     /**
      * Set votes
      *
@@ -224,10 +183,8 @@ class Recipe
     public function setVotes($votes)
     {
         $this->votes = $votes;
-
         return $this;
     }
-
     /**
      * Get votes
      *
@@ -237,7 +194,6 @@ class Recipe
     {
         return $this->votes;
     }
-
     /**
      * Add recipePlan
      *
@@ -248,10 +204,8 @@ class Recipe
     public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
         $this->recipePlans[] = $recipePlan;
-
         return $this;
     }
-
     /**
      * Remove recipePlan
      *
@@ -261,7 +215,6 @@ class Recipe
     {
         $this->recipePlans->removeElement($recipePlan);
     }
-
     /**
      * Get recipePlans
      *
@@ -271,7 +224,6 @@ class Recipe
     {
         return $this->recipePlans;
     }
-
     /**
      * @return mixed
      */
@@ -279,7 +231,6 @@ class Recipe
     {
         return $this->recipePreparationMethod;
     }
-
     /**
      * @param mixed $recipePreparationMethod
      */
@@ -287,7 +238,6 @@ class Recipe
     {
         $this->recipePreparationMethod = $recipePreparationMethod;
     }
-
     /**
      * Set ingredients.
      *
@@ -298,10 +248,8 @@ class Recipe
     public function setIngredients($ingredients)
     {
         $this->ingredients = $ingredients;
-
         return $this;
     }
-
     /**
      * Get ingredients.
      *

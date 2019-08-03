@@ -36,59 +36,49 @@
     </div>
     <div class="m-4 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ostatnio dodany plan:</span> Plan jak u mamy
+            <span>Ostatnio dodany plan:</span> {{ lastPlanName }}
         </h2>
-        <table class="table">
-            <thead>
-            <tr class="d-flex">
-                <th class="col-2">Poniedziałek</th>
-                <th class="col-8"></th>
-                <th class="col-2"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="d-flex">
-                <td class="col-2">śniadanie</td>
-                <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">śniadanie</td>
-                <td class="col-8">kanapka z pastą rybną</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">obiad</td>
-                <td class="col-8">zupa pomidorowa</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            </tbody>
-        </table>
-        <table class="table">
-            <thead>
-            <tr class="d-flex">
-                <th class="col-2">Wtorek</th>
-                <th class="col-8"></th>
-                <th class="col-2"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="d-flex">
-                <td class="col-2">śniadanie</td>
-                <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">drugie śniadanie</td>
-                <td class="col-8">pączki</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">obiad</td>
-                <td class="col-8">schabowy w panierce</td>
-                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-            </tr>
-            </tbody>
-        </table>
+
+
+        {% for a in range(0,res|length-1) %}
+
+            <table class="table">
+                <thead>
+                {% set id_day=res[a][1] %}
+                {% set licznik = res[a][2] %}
+                {% set break = false %}
+                {% for x in range (0,rp|length-1) if not break %}
+                {% if (id_day == rp[x].DayName.Id()) %}
+                <tr class="d-flex">
+                    <th class="col-2"> {{ rp[x].DayName.DayName() }} </th>
+                    {% set break = true %}
+
+                    <th class="col-8"></th>
+                    <th class="col-2"></th>
+                </tr>
+                </thead>
+                {% endif %}
+                {% endfor %}
+                <tbody>
+                {% for b in range (0,rp|length-1) %}
+
+                    {% if (id_day == rp[b].DayName.Id) %}
+
+                        <tr class="d-flex">
+                            <td class="col-2">{{ rp[b].MealName }}</td>
+                            <td class="col-8">{{ rp[b].Recipe.Name }}</td>
+                            <td class="col-2">
+                                <a href="/recipe/{{ rp[b].Recipe.Id }}" role="button" class="btn btn-primary rounded-0">Szczegóły</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        {% endfor %}
     </div>
 {% endblock content %}

@@ -17,8 +17,18 @@
                 <div class="mt-4 ml-4 mr-4">
                     <div class="row border-bottom border-3">
                         <div class="col"><h3 class="color-header text-uppercase">Szczegóły przepisu</h3></div>
-                        <div class="col"><img src="{{ asset('assets/images/like.png') }}"
-                                              width="30">: {% if recipe.votes %}{{ recipe.votes }}{% endif %}</div>
+                        <div class="col">
+                            <form action="" method="POST">
+                                <input type="hidden" value="{{ recipe.id }}" name="recipeId">
+                                <button type="submit" name="plus" value="true">
+                                    <img src="{{ asset('assets/images/like.png') }}" width="30">
+                                </button>
+                                <button type="submit" name="minus" value="true">
+                                    <img src="{{ asset('assets/images/notlike.png') }}" width="30">
+                                </button>: {% if recipe.votes %}{{ recipe.votes }}{% endif %}
+                            </form>
+                        </div>
+
                         <div class="col d-flex justify-content-end mb-2"><a href="#"
                                                                             class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                         </div>

@@ -33,20 +33,18 @@ class Recipe
      */
     private $recipePlans;
 
-
-
-    /**
-     * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
-     * @ORM\JoinTable(name="recipes_ingredients")
-     */
-    private $ingredients;
-
-
     public function __construct()
     {
         $this->recipePlans = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }
+
+    /**
+     * @ORM\Column(name="ingredients", type="string", length=255, unique=false)
+     * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
+     * @ORM\JoinTable(name="recipes_ingredients")
+     */
+    private $ingredients;
 
     /**
      * @ORM\Column(name="description", type="text")

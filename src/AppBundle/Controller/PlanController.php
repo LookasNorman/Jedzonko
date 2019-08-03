@@ -4,7 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\RecipePlan;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use AppBundle\Entity\Plan;
@@ -87,6 +89,19 @@ class PlanController extends Controller
      */
     public function addRecipeAction(): Response
     {
+        return $this->render('dashboard/plan/addRecipe.html.twig', []);
+    }
+
+    /**
+     * @return Response
+     * @Route("/plan/add/details", methods={"GET"}, name="add_plan_details")
+     */
+    public function addPlanDetails(Request $request)
+    {
+        $session = $this->get('session');
+        if(!$session->get('plan_id')){
+            throw new AccessDeniedHttpException('Brak id planu');
+        }
         return $this->render('dashboard/plan/addRecipe.html.twig', []);
     }
 

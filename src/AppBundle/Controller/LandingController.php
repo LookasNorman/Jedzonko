@@ -21,26 +21,17 @@ class LandingController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Recipe');
         $allRecipes = $repository->findAll();
+        shuffle($allRecipes);
 
-        for ($i = 1; $i <= count($allRecipes); $i++) {
-            $allRecipesLengthArray[] = $i;
-        }
-        shuffle($allRecipesLengthArray);
+        $recipe0 = $allRecipes[0];
+        $recipe1 = $allRecipes[1];
+        $recipe2 = $allRecipes[2];
 
-        $firstRandomRecipeName = ($allRecipes[$allRecipesLengthArray[0]])->getName();
-        $firstRandomRecipeDesc = ($allRecipes[$allRecipesLengthArray[0]])->getDescription();
-        $secondRandomRecipeName = ($allRecipes[$allRecipesLengthArray[1]])->getName();
-        $secondRandomRecipeDesc = ($allRecipes[$allRecipesLengthArray[1]])->getDescription();
-        $thirdRandomRecipeName = ($allRecipes[$allRecipesLengthArray[2]])->getName();
-        $thirdRandomRecipeDesc = ($allRecipes[$allRecipesLengthArray[2]])->getDescription();
 
         return $this->render("landing/index.html.twig", [
-            "firstRecipeName" => $firstRandomRecipeName,
-            "firstRecipeDesc" => $firstRandomRecipeDesc,
-            "secondRecipeName" => $secondRandomRecipeName,
-            "secondRecipeDesc" => $secondRandomRecipeDesc,
-            "thirdRecipeName" => $thirdRandomRecipeName,
-            "thirdRecipeDesc" => $thirdRandomRecipeDesc
+         "recipe1" => $recipe0,
+         "recipe2" => $recipe1,
+         "recipe3" => $recipe2
         ]);
     }
     
@@ -66,12 +57,16 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/recipe/list/{id}")
+     * @Route ("/recipe/list/{id}", name="recipe_details", methods={"GET"})
      */
     
-    public function recipeDetailsAction(): Response
+    public function recipeDetailsAction($id): Response
     {
-        return $this->render('landing/recipeDetails.html.twig', []);
+        $recipe = $this->getDoctrine()->getManager()->getRepository(Recipe::class)->find($id);
+
+        return $this->render('landing/recipeDetails.html.twig', [
+            'recipe' => $recipe
+        ]);
     }
     
     /**

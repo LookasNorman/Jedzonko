@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Plan;
 use AppBundle\Form\RecipePlanType;
@@ -98,9 +100,9 @@ class PlanController extends Controller
      */
     public function addPlanDetails(Request $request)
     {
+        $session = $this->get('session');
         //Check is set session plan_id
         if($request->isMethod('GET')){
-            $session = $this->get('session');
             if (!$session->get('plan_id')) {
                 throw new AccessDeniedHttpException('Brak id planu');
             }
@@ -118,13 +120,14 @@ class PlanController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recipePlan = $form->getData();
+            if($planId <> $recipePlan->getplan()->getid()) {
+                throw new NotFoundHttpException('Zły plan');
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($recipePlan);
             $em->flush();
 
-            return $this->redirectToRoute('plan_details', [
-                'id' => $planId
-            ]);
+            return $this->redirect('/new_plan_details');
         }
 
         return $this->render('dashboard/plan/addRecipe.html.twig', [
@@ -132,8 +135,4 @@ class PlanController extends Controller
             'form' => $form->createView()
         ]);
     }
-
-
-
-
 }

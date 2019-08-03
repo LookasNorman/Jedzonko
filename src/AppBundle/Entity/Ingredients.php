@@ -1,8 +1,10 @@
 <?php
 
 namespace AppBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 /**
  * Ingredients
@@ -13,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Ingredients
 {
     /**
-     * @var int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,7 +22,6 @@ class Ingredients
     private $id;
 
     /**
-     * @var string
      * @ORM\Column(name="ingredient", type="string", length=255)
      *
      */
@@ -29,11 +29,9 @@ class Ingredients
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Recipe", inversedBy="ingredients")
-     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
-     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
+     * @ManyToMany(targetEntity="Recipe", mappedBy="ingredients")
      */
-    private $recipe;
+    private $recipes;
 
 
     /**
@@ -68,5 +66,50 @@ class Ingredients
     public function getIngredient()
     {
         return $this->ingredient;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add recipe.
+     *
+     * @param \AppBundle\Entity\Recipe $recipe
+     *
+     * @return Ingredients
+     */
+    public function addRecipe(\AppBundle\Entity\Recipe $recipe)
+    {
+        $this->recipes[] = $recipe;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipe.
+     *
+     * @param \AppBundle\Entity\Recipe $recipe
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRecipe(\AppBundle\Entity\Recipe $recipe)
+    {
+        return $this->recipes->removeElement($recipe);
+    }
+
+    /**
+     * Get recipes.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipes()
+    {
+        return $this->recipes;
     }
 }

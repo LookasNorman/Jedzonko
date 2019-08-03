@@ -29,10 +29,9 @@ class Ingredients
 
 
     /**
-     * @ManyToMany(targetEntity="Recipe", mappedBy="ingredients")
-     *
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="ingredient")
      */
-    private $recipes;
+    private $recipesIngredients;
 
 
     /**

@@ -41,10 +41,9 @@ class Recipe
     private $recipePlans;
 
     /**
-     * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
-     * @ORM\JoinTable(name="recipes_ingredients")
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="recipe")
      */
-    private $ingredients;
+    private $recipesIngredients;
 
     public function __construct()
     {
@@ -334,5 +333,41 @@ class Recipe
     public function removeIngredient(\AppBundle\Entity\Ingredients $ingredient)
     {
         return $this->ingredients->removeElement($ingredient);
+    }
+
+    /**
+     * Add recipesIngredient.
+     *
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     *
+     * @return Recipe
+     */
+    public function addRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    {
+        $this->recipesIngredients[] = $recipesIngredient;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipesIngredient.
+     *
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    {
+        return $this->recipesIngredients->removeElement($recipesIngredient);
+    }
+
+    /**
+     * Get recipesIngredients.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipesIngredients()
+    {
+        return $this->recipesIngredients;
     }
 }

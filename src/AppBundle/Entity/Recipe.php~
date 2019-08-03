@@ -4,8 +4,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Recipe
+ *
+ * @UniqueEntity(
+ *     fields={"name"}, message="Recipe name alredy exist"
+ * )
  *
  * @ORM\Table(name="recipe")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecipeRepository")
@@ -35,11 +41,17 @@ class Recipe
     private $recipePlans;
 
     /**
-     * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
-     * @ORM\JoinTable(name="recipes_ingredients")
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="recipe")
      */
-    private $ingredients;
+    private $recipesIngredients;
 
+    public function __construct()
+    {
+        $this->recipePlans = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->created = new \DateTime();
+    }
     /**
      * @var string
      *

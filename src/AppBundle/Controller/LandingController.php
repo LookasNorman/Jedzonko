@@ -23,15 +23,10 @@ class LandingController extends Controller
         $allRecipes = $repository->findAll();
         shuffle($allRecipes);
 
-        $recipe0 = $allRecipes[0];
-        $recipe1 = $allRecipes[1];
-        $recipe2 = $allRecipes[2];
-
-
         return $this->render("landing/index.html.twig", [
-         "recipe1" => $recipe0,
-         "recipe2" => $recipe1,
-         "recipe3" => $recipe2
+         "recipe1" => $allRecipes[0],
+         "recipe2" => $allRecipes[1],
+         "recipe3" => $allRecipes[2]
         ]);
     }
     

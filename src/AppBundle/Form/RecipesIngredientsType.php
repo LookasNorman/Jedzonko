@@ -9,6 +9,7 @@ use AppBundle\Repository\IngredientsRepository;
 use AppBundle\Repository\RecipeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,9 +25,9 @@ class RecipesIngredientsType extends AbstractType
             ->add('ingredient', EntityType::class, [
                 'class' => Ingredients::class,
                 'choice_label' => 'ingredient',
-                'query_builder' => function (IngredientsRepository $repo) {
-                    return $repo->findAll();
-                }
+//                'label' => 'Choose an ingredient',
+                'multiple' => true,
+                'expanded' => true
             ])
 //            ->add('ingredient', EntityType::class, [
 //

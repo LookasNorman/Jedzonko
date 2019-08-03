@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Recipe;
+use AppBundle\Entity\RecipesIngredients;
+use AppBundle\Form\RecipesIngredientsType;
 use AppBundle\Form\RecipeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +53,8 @@ class RecipeController extends Controller
      */
     public function editAction($id, Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager()->getRepository(Recipe::class);
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(Recipe::class);
         $existingRecipe = $repository->find($id);
         if (!$existingRecipe instanceof Recipe) {
             throw new NotFoundHttpException('Brak przepisu');
@@ -63,7 +66,14 @@ class RecipeController extends Controller
         $recipe->setPreparationTime($existingRecipe->getPreparationTime());
         $recipe->setRecipePreparationMethod($existingRecipe->getRecipePreparationMethod());
 
+        $recipesIngredients = $em->getRepository(RecipesIngredients::class)->findAll();
+        foreach ($recipesIngredients as $recipesIngredient) {
+            $recipe->addRecipesIngredient($recipesIngredient);
+        }
+
         $form = $this->createForm(RecipeType::class, $recipe);
+        $recipe = new RecipesIngredients();
+        $form = $this->createForm(RecipesIngredientsType::class, $recipe);
 
         $form->handleRequest($request);
 

@@ -81,8 +81,9 @@ class PlanController extends Controller
      * @return Response
      * @Route("/plan/list/{id}", name="plan_details", methods={"GET"})
      */
-    public function detailsAction($id): Response
+    public function detailsAction($id, Session $session): Response
     {
+        $session->set('plan_id', $id);
         $planDetails = $this->planDetails($id);
         $plan = $planDetails[0];
         $recipesDay = $planDetails[1];
@@ -98,8 +99,9 @@ class PlanController extends Controller
      * @return Response
      * @Route("/plan/list", name="plan_list")
      */
-    public function listAction(Request $request): Response
+    public function listAction(Request $request, Session $session): Response
     {
+        $session->remove('plan_id');
         $em = $this->get('doctrine.orm.entity_manager');
         $dql = "SELECT u FROM AppBundle:Plan u  ORDER BY u.name ASC";
         $query = $em->createQuery($dql);
@@ -185,6 +187,7 @@ class PlanController extends Controller
     private function planDetails($id)
     {
         $daysName = [];
+        $recipesDay = [];
         $em = $this->getDoctrine()->getManager();
 
         //Get plan

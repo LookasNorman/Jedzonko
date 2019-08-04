@@ -24,10 +24,10 @@ class LandingController extends Controller
 
         shuffle($allRecipes);
 
+        $recipes = array_slice($allRecipes, 0, 3);
+
         return $this->render("landing/index.html.twig", [
-         "recipe1" => $allRecipes[0],
-         "recipe2" => $allRecipes[1],
-         "recipe3" => $allRecipes[2]
+         "recipes" => $recipes
         ]);
     }
     

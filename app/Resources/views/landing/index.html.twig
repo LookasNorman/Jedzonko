@@ -4,30 +4,16 @@
     <section class="padding-large bg-light">
         <div id="carouselExampleControls" class="carousel slide main-slider" data-ride="carousel">
             <div class="carousel-inner container">
-                <div class="carousel-item active">
+                {% for recipe in recipes %}
+                <div {% if loop.index0 == 0 %}class="carousel-item active"{% else %}class="carousel-item"{% endif %}>
                     <div class="container w-75 d-flex">
                         <div class="carousel-caption d-block">
-                            <h1>{{ recipe1.Name }}</h1>
-                            <h3> {{ recipe1.Description }}</h3>
+                            <h1>{{ recipe.Name }}</h1>
+                            <h3> {{ recipe.Description }}</h3>
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <div class="container w-75 d-flex">
-                        <div class="carousel-caption d-block">
-                            <h1>{{ recipe2.Name }}</h1>
-                            <h3> {{ recipe2.Description }}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="container w-75 d-flex">
-                        <div class="carousel-caption d-block">
-                            <h1>{{ recipe3.Name }}</h1>
-                            <h3> {{ recipe3.Description }}</h3>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

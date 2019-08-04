@@ -1,0 +1,5 @@
+AppBundle\Entity\Plan:
+  plan_{1..200}:
+    name (unique): <firstName()>
+    description: <paragraph($nbSentences = 3, $variableNbSentences = true)>
+    created: <dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = 'Europe/Warsaw')>

@@ -14,7 +14,7 @@ class LandingController extends Controller
 {
     /**
      * @return Response
-     * @Route("/", name="main")
+     * @Route("/")
      */
     public function indexAction(): Response
     {

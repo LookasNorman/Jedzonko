@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use AppBundle\Entity\Plan;
@@ -18,7 +19,7 @@ class DashboardController extends Controller
     /**
      * @Route("/", name="dashboard_index")
      */
-    public function indexAction(): Response
+    public function indexAction(Session $session): Response
     {
         
         $em = $this->getDoctrine()->getManager();
@@ -36,6 +37,8 @@ class DashboardController extends Controller
         $plans = $query->getResult();
         $lastPlanId = $plans[0]->getId();
         $lastPlanName = $plans[0]->getName();
+
+        $session->set('plan_id', $lastPlanId);
     
     //last plan details
         $query = $em->createQuery

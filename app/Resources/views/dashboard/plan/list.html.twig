@@ -16,16 +16,16 @@
             <table class="table border-bottom">
                 <thead>
                 <tr class="d-flex">
-                    <th class="col-1">ID</th>
+{#                    <th class="col-1">ID</th>#}
                     <th class="col-2">NAZWA</th>
-                    <th class="col-7">OPIS</th>
-                    <th class="col-2 center">AKCJE</th>
+{#                    <th class="col-7">OPIS</th>#}
+{#                    <th class="col-2 center">AKCJE</th>#}
                 </tr>
                 </thead>
                 <tbody class="text-color-lighter">
-                {% for plan in plans %}
+                {% for plan in pagination %}
                     <tr class="d-flex">
-                        <td class="col-1">{{ plan.id }}</td>
+{#                        <td class="col-1">{{ plan.id }}</td>#}
                         <td class="col-2">{{ plan.name }}</td>
                         <td class="col-7">
                             {{ plan.description }}
@@ -39,6 +39,11 @@
                 {% endfor %}
                 </tbody>
             </table>
+
         </div>
+
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
     </div>
 {% endblock content %}

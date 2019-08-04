@@ -43,7 +43,7 @@ class RecipeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($recipe);
             $em->flush();
-            return $this->redirectToRoute('app_recipe_add');
+            return $this->redirectToRoute('recipe_add');
         }
         return $this->render('dashboard/recipe/add.html.twig', ['addForm' => $form->createView()]);
     }

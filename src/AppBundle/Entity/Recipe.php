@@ -4,8 +4,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * Recipe
+ *
+ * @UniqueEntity(
+ *     fields={"name"}, message="Recipe name alredy exist"
+ * )
  *
  * @ORM\Table(name="recipe")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecipeRepository")
@@ -35,18 +41,10 @@ class Recipe
     private $recipePlans;
 
     /**
-     * @ManyToMany(targetEntity="Ingredients", inversedBy="recipes")
-     * @ORM\JoinTable(name="recipes_ingredients")
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="recipe")
      */
-    private $ingredients;
+    private $recipesIngredients;
 
-    public function __construct()
-    {
-        $this->recipePlans = new ArrayCollection();
-        $this->ingredients = new ArrayCollection();
-        $this->products = new ArrayCollection();
-        $this->created = new \DateTime();
-    }
     /**
      * @var string
      *
@@ -90,7 +88,18 @@ class Recipe
     private $votes;
 
     /**
-     * Get id
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipePlans = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipesIngredients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created = new \DateTime();
+
+    }
+
+    /**
+     * Get id.
      *
      * @return int
      */
@@ -100,7 +109,7 @@ class Recipe
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -109,11 +118,12 @@ class Recipe
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -121,8 +131,9 @@ class Recipe
     {
         return $this->name;
     }
+
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -131,11 +142,12 @@ class Recipe
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -143,8 +155,33 @@ class Recipe
     {
         return $this->description;
     }
+
     /**
-     * Set created
+     * Set recipePreparationMethod.
+     *
+     * @param string $recipePreparationMethod
+     *
+     * @return Recipe
+     */
+    public function setRecipePreparationMethod($recipePreparationMethod)
+    {
+        $this->recipePreparationMethod = $recipePreparationMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get recipePreparationMethod.
+     *
+     * @return string
+     */
+    public function getRecipePreparationMethod()
+    {
+        return $this->recipePreparationMethod;
+    }
+
+    /**
+     * Set created.
      *
      * @param \DateTime $created
      *
@@ -153,10 +190,12 @@ class Recipe
     public function setCreated($created)
     {
         $this->created = $created;
+
         return $this;
     }
+
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */
@@ -166,22 +205,23 @@ class Recipe
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
-     * @param \DateTime $updated
+     * @param \DateTime|null $updated
      *
      * @return Recipe
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated = null)
     {
         $this->updated = $updated;
+
         return $this;
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getUpdated()
     {
@@ -189,9 +229,9 @@ class Recipe
     }
 
     /**
-     * Set preparationTime
+     * Set preparationTime.
      *
-     * @param integer $preparationTime
+     * @param int $preparationTime
      *
      * @return Recipe
      */
@@ -201,8 +241,9 @@ class Recipe
 
         return $this;
     }
+
     /**
-     * Get preparationTime
+     * Get preparationTime.
      *
      * @return int
      */
@@ -212,22 +253,23 @@ class Recipe
     }
 
     /**
-     * Set votes
+     * Set votes.
      *
-     * @param integer $votes
+     * @param int|null $votes
      *
      * @return Recipe
      */
-    public function setVotes($votes)
+    public function setVotes($votes = null)
     {
         $this->votes = $votes;
+
         return $this;
     }
 
     /**
-     * Get votes
+     * Get votes.
      *
-     * @return int
+     * @return int|null
      */
     public function getVotes()
     {
@@ -235,7 +277,7 @@ class Recipe
     }
 
     /**
-     * Add recipePlan
+     * Add recipePlan.
      *
      * @param \AppBundle\Entity\RecipePlan $recipePlan
      *
@@ -244,21 +286,24 @@ class Recipe
     public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
         $this->recipePlans[] = $recipePlan;
+
         return $this;
     }
 
     /**
-     * Remove recipePlan
+     * Remove recipePlan.
      *
      * @param \AppBundle\Entity\RecipePlan $recipePlan
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
-        $this->recipePlans->removeElement($recipePlan);
+        return $this->recipePlans->removeElement($recipePlan);
     }
 
     /**
-     * Get recipePlans
+     * Get recipePlans.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -268,39 +313,38 @@ class Recipe
     }
 
     /**
-     * @return mixed
-     */
-    public function getRecipePreparationMethod()
-    {
-        return $this->recipePreparationMethod;
-    }
-
-    /**
-     * @param mixed $recipePreparationMethod
-     */
-    public function setRecipePreparationMethod($recipePreparationMethod): void
-    {
-        $this->recipePreparationMethod = $recipePreparationMethod;
-    }
-    /**
-     * Set ingredients.
+     * Add recipesIngredient.
      *
-     * @param string $ingredients
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
      *
      * @return Recipe
      */
-    public function setIngredients($ingredients)
+    public function addRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
     {
-        $this->ingredients = $ingredients;
+        $this->recipesIngredients[] = $recipesIngredient;
+
         return $this;
     }
+
     /**
-     * Get ingredients.
+     * Remove recipesIngredient.
      *
-     * @return string
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getIngredients()
+    public function removeRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
     {
-        return $this->ingredients;
+        return $this->recipesIngredients->removeElement($recipesIngredient);
+    }
+
+    /**
+     * Get recipesIngredients.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipesIngredients()
+    {
+        return $this->recipesIngredients;
     }
 }

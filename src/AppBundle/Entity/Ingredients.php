@@ -29,9 +29,9 @@ class Ingredients
 
 
     /**
-     * @ManyToMany(targetEntity="Recipe", mappedBy="ingredients")
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="ingredient", fetch="EXTRA_LAZY")
      */
-    private $recipes;
+    private $recipesIngredients;
 
 
     /**
@@ -111,5 +111,41 @@ class Ingredients
     public function getRecipes()
     {
         return $this->recipes;
+    }
+
+    /**
+     * Add recipesIngredient.
+     *
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     *
+     * @return Ingredients
+     */
+    public function addRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    {
+        $this->recipesIngredients[] = $recipesIngredient;
+
+        return $this;
+    }
+
+    /**
+     * Remove recipesIngredient.
+     *
+     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    {
+        return $this->recipesIngredients->removeElement($recipesIngredient);
+    }
+
+    /**
+     * Get recipesIngredients.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRecipesIngredients()
+    {
+        return $this->recipesIngredients;
     }
 }

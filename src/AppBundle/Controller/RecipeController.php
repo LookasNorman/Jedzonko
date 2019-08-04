@@ -111,7 +111,7 @@ class RecipeController extends Controller
 
     /**
      * @return Response
-     * @Route ("/recipe/{id}", name="recipe_details", methods={"POST"})
+     * @Route ("/recipe/{id}", name="recipe_detail", methods={"POST"})
      */
     public function detailsAction(Request $request): Response
     {

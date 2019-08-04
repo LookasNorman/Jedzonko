@@ -2,13 +2,9 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Ingredients;
-use AppBundle\Entity\RecipesIngredients;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,9 +20,23 @@ class RecipeType extends AbstractType
             ->add('name', TextType::class, [
                 'error_bubbling' => true
             ])
-            ->add('description', TextType::class)
-            ->add('recipePreparationMethod', TextType::class)
-            ->add('preparationTime', NumberType::class);
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'w-100 p-1',
+                    'rows' => 5
+                ]
+            ])
+            ->add('recipePreparationMethod', TextareaType::class, [
+                'attr' => [
+                    'class' => 'w-100 p-1',
+                    'rows' => 10
+                ]
+            ])
+            ->add('preparationTime', NumberType::class, [
+                'attr' => [
+                    'class' => 'p-1'
+                ]
+            ]);
     }
 
     /**

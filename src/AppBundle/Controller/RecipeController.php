@@ -12,10 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class RecipeController extends Controller
@@ -27,24 +23,26 @@ class RecipeController extends Controller
      */
     public function addAction(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $ingredients = $em->getRepository(Ingredients::class)->findAll();
+
         $recipe = new Recipe();
-        $form = $this->createFormBuilder($recipe)
-            ->setAction($this->generateUrl('recipe_add'))
-            ->add('name', TextType::class, ['label' => 'Nazwa Przepisu'])
-            ->add('description', TextType::class, ['label' => 'Opis przepisu'])
-            ->add('preparationTime', NumberType::class, ['label' => 'Przygotowanie(minuty)'])
-            ->add('recipePreparationMethod', TextareaType::class, ['label' => 'Sposób przygotowania'])
-            ->add('save', SubmitType::class, ['label' => 'wyślij'])
-            ->getForm();
+        $form = $this->createForm(RecipeType::class, $recipe);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($recipe);
             $em->flush();
-            return $this->redirectToRoute('recipe_add');
+
+            $this->addIngredientToRecipe($ingredients, $request, $recipe);
+
+            return $this->redirectToRoute('recipe_list');
         }
-        return $this->render('dashboard/recipe/add.html.twig', ['addForm' => $form->createView()]);
+        return $this->render('dashboard/recipe/add.html.twig', [
+            'addForm' => $form->createView(),
+            'ingredients' => $ingredients
+        ]);
     }
 
     /**
@@ -98,9 +96,9 @@ class RecipeController extends Controller
         $recipeIngredient = new RecipesIngredients();
         $em = $this->getDoctrine()->getManager();
 
-        foreach ($ingredients as $ingredient){
-            $quantity = $request->request->get('ingredient_'.$ingredient->getid());
-            if($request->request->get('ingredient_'.$ingredient->getid())){
+        foreach ($ingredients as $ingredient) {
+            $quantity = $request->request->get('ingredient_' . $ingredient->getid());
+            if ($request->request->get('ingredient_' . $ingredient->getid())) {
                 $recipeIngredient->setRecipe($recipe);
                 $recipeIngredient->setIngredient($ingredient);
                 $recipeIngredient->setQuantity($quantity);

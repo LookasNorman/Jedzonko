@@ -81,7 +81,7 @@ class RecipeController extends Controller
             $em->persist($recipe);
             $em->flush();
 
-            $this->addIngredientToRecipe($ingredients, $request);
+            $this->addIngredientToRecipe($ingredients, $request, $recipe);
 
             return $this->redirectToRoute('recipe_list');
         }
@@ -93,7 +93,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    private function addIngredientToRecipe($ingredients, $request)
+    private function addIngredientToRecipe($ingredients, $request, $recipe)
     {
         $recipeIngredient = new RecipesIngredients();
         $em = $this->getDoctrine()->getManager();

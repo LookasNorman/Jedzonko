@@ -55,9 +55,7 @@
                 <div class="col-2"></div>
 
                 <div class="col-5 p-4">
-                    {% for ingredient in ingredients %}
-                        {{ ingredient.ingredient }}: <input type="text" name="ingredient.{{ ingredient.id }}">
-                    {% endfor %}
+                        {{ form_widget((addForm.ingredients)) }}
                 </div>
             </div>
         </div>

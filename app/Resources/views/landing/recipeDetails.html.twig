@@ -67,8 +67,9 @@
                         </div>
                         <div class="col-2"></div>
                         <ul class="col-5 p-4 list-unstyled">
-                            {% for recipesIngredients in recipe.recipesIngredients %}
-                                <li>{{ recipesIngredients.ingredient.ingredient }}: {{ recipesIngredients.quantity }}</li>
+                            {% set ingredients = recipe.ingredients | split(',') %}
+                            {% for ingredient in ingredients %}
+                                <li>{{ ingredient }}</li>
                             {% endfor %}
                         </ul>
                     </div>

@@ -36,6 +36,12 @@ class RecipeType extends AbstractType
                 'attr' => [
                     'class' => 'p-1'
                 ]
+            ])
+            ->add('ingredients', TextareaType::class, [
+                'attr' => [
+                    'class' => 'w-100 p-1',
+                    'rows' => 10
+                ]
             ]);
     }
 

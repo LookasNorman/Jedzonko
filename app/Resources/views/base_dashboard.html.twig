@@ -27,19 +27,19 @@
     <div class="row dashboard-nowrap">
         <ul class="nav flex-column long-bg">
             <li class="nav-item">
-                <a class="nav-link" href="/main">
+                <a class="nav-link" href="{{ path('dashboard_index') }}">
                     <span>Pulpit</span>
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/recipe/list">
+                <a class="nav-link" href="{{ path('recipe_list') }}">
                     <span>Przepisy</span>
                     <i class="fas fa-angle-right"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/plan/list">
+                <a class="nav-link" href="{{ path('plan_list') }}">
                     <span>Plany</span>
                     <i class="fas fa-angle-right"></i>
                 </a>

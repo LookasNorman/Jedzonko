@@ -45,13 +45,6 @@ class Recipe
      */
     private $recipesIngredients;
 
-    public function __construct()
-    {
-        $this->recipePlans = new ArrayCollection();
-        $this->ingredients = new ArrayCollection();
-        $this->products = new ArrayCollection();
-        $this->created = new \DateTime();
-    }
     /**
      * @var string
      *
@@ -95,7 +88,18 @@ class Recipe
     private $votes;
 
     /**
-     * Get id
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipePlans = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipesIngredients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created = new \DateTime();
+
+    }
+
+    /**
+     * Get id.
      *
      * @return int
      */
@@ -105,7 +109,7 @@ class Recipe
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -114,11 +118,12 @@ class Recipe
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -126,8 +131,9 @@ class Recipe
     {
         return $this->name;
     }
+
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -136,11 +142,12 @@ class Recipe
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -148,8 +155,33 @@ class Recipe
     {
         return $this->description;
     }
+
     /**
-     * Set created
+     * Set recipePreparationMethod.
+     *
+     * @param string $recipePreparationMethod
+     *
+     * @return Recipe
+     */
+    public function setRecipePreparationMethod($recipePreparationMethod)
+    {
+        $this->recipePreparationMethod = $recipePreparationMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get recipePreparationMethod.
+     *
+     * @return string
+     */
+    public function getRecipePreparationMethod()
+    {
+        return $this->recipePreparationMethod;
+    }
+
+    /**
+     * Set created.
      *
      * @param \DateTime $created
      *
@@ -158,10 +190,12 @@ class Recipe
     public function setCreated($created)
     {
         $this->created = $created;
+
         return $this;
     }
+
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */
@@ -171,22 +205,23 @@ class Recipe
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
-     * @param \DateTime $updated
+     * @param \DateTime|null $updated
      *
      * @return Recipe
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated = null)
     {
         $this->updated = $updated;
+
         return $this;
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getUpdated()
     {
@@ -194,9 +229,9 @@ class Recipe
     }
 
     /**
-     * Set preparationTime
+     * Set preparationTime.
      *
-     * @param integer $preparationTime
+     * @param int $preparationTime
      *
      * @return Recipe
      */
@@ -206,8 +241,9 @@ class Recipe
 
         return $this;
     }
+
     /**
-     * Get preparationTime
+     * Get preparationTime.
      *
      * @return int
      */
@@ -217,22 +253,23 @@ class Recipe
     }
 
     /**
-     * Set votes
+     * Set votes.
      *
-     * @param integer $votes
+     * @param int|null $votes
      *
      * @return Recipe
      */
-    public function setVotes($votes)
+    public function setVotes($votes = null)
     {
         $this->votes = $votes;
+
         return $this;
     }
 
     /**
-     * Get votes
+     * Get votes.
      *
-     * @return int
+     * @return int|null
      */
     public function getVotes()
     {
@@ -240,7 +277,7 @@ class Recipe
     }
 
     /**
-     * Add recipePlan
+     * Add recipePlan.
      *
      * @param \AppBundle\Entity\RecipePlan $recipePlan
      *
@@ -249,90 +286,30 @@ class Recipe
     public function addRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
         $this->recipePlans[] = $recipePlan;
+
         return $this;
     }
 
     /**
-     * Remove recipePlan
+     * Remove recipePlan.
      *
      * @param \AppBundle\Entity\RecipePlan $recipePlan
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeRecipePlan(\AppBundle\Entity\RecipePlan $recipePlan)
     {
-        $this->recipePlans->removeElement($recipePlan);
+        return $this->recipePlans->removeElement($recipePlan);
     }
 
     /**
-     * Get recipePlans
+     * Get recipePlans.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getRecipePlans()
     {
         return $this->recipePlans;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRecipePreparationMethod()
-    {
-        return $this->recipePreparationMethod;
-    }
-
-    /**
-     * @param mixed $recipePreparationMethod
-     */
-    public function setRecipePreparationMethod($recipePreparationMethod): void
-    {
-        $this->recipePreparationMethod = $recipePreparationMethod;
-    }
-    /**
-     * Set ingredients.
-     *
-     * @param string $ingredients
-     *
-     * @return Recipe
-     */
-    public function setIngredients($ingredients)
-    {
-        $this->ingredients = $ingredients;
-        return $this;
-    }
-    /**
-     * Get ingredients.
-     *
-     * @return string
-     */
-    public function getIngredients()
-    {
-        return $this->ingredients;
-    }
-
-    /**
-     * Add ingredient.
-     *
-     * @param \AppBundle\Entity\Ingredients $ingredient
-     *
-     * @return Recipe
-     */
-    public function addIngredient(\AppBundle\Entity\Ingredients $ingredient)
-    {
-        $this->ingredients[] = $ingredient;
-
-        return $this;
-    }
-
-    /**
-     * Remove ingredient.
-     *
-     * @param \AppBundle\Entity\Ingredients $ingredient
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeIngredient(\AppBundle\Entity\Ingredients $ingredient)
-    {
-        return $this->ingredients->removeElement($ingredient);
     }
 
     /**

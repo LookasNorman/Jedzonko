@@ -29,7 +29,7 @@ class Ingredients
 
 
     /**
-     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="ingredient")
+     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="ingredient", fetch="EXTRA_LAZY")
      */
     private $recipesIngredients;
 

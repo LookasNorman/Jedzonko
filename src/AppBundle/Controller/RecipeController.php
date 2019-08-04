@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Ingredients;
 use AppBundle\Entity\Recipe;
 use AppBundle\Entity\RecipesIngredients;
 use AppBundle\Form\RecipesIngredientsType;
@@ -33,7 +34,6 @@ class RecipeController extends Controller
             ->add('description', TextType::class, ['label' => 'Opis przepisu'])
             ->add('preparationTime', NumberType::class, ['label' => 'Przygotowanie(minuty)'])
             ->add('recipePreparationMethod', TextareaType::class, ['label' => 'Sposób przygotowania'])
-            ->add('ingredients', TextareaType::class, ['label' => 'Składniki'])
             ->add('save', SubmitType::class, ['label' => 'wyślij'])
             ->getForm();
         $form->handleRequest($request);
@@ -66,30 +66,49 @@ class RecipeController extends Controller
         $recipe->setPreparationTime($existingRecipe->getPreparationTime());
         $recipe->setRecipePreparationMethod($existingRecipe->getRecipePreparationMethod());
 
-        $recipesIngredients = $em->getRepository(RecipesIngredients::class)->findAll();
-        foreach ($recipesIngredients as $recipesIngredient) {
-            $recipe->addRecipesIngredient($recipesIngredient);
-        }
+        $recipesIngredients = $em->getRepository(RecipesIngredients::class)->findBy([
+            'recipe' => $id
+        ]);
+
+        $ingredients = $em->getRepository(Ingredients::class)->findAll();
 
         $form = $this->createForm(RecipeType::class, $recipe);
-//        $recipe = new RecipesIngredients();
-//        $form = $this->createForm(RecipesIngredientsType::class, $recipe);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($recipe);
             $em->flush();
+
+            $this->addIngredientToRecipe($ingredients, $request);
+
             return $this->redirectToRoute('recipe_list');
         }
 
         return $this->render('dashboard/recipe/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'recipesIngredients' => $recipesIngredients,
+            'ingredients' => $ingredients
         ]);
     }
 
+    private function addIngredientToRecipe($ingredients, $request)
+    {
+        $recipeIngredient = new RecipesIngredients();
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($ingredients as $ingredient){
+            $quantity = $request->request->get('ingredient_'.$ingredient->getid());
+            if($request->request->get('ingredient_'.$ingredient->getid())){
+                $recipeIngredient->setRecipe($recipe);
+                $recipeIngredient->setIngredient($ingredient);
+                $recipeIngredient->setQuantity($quantity);
+                $em->merge($recipeIngredient);
+                $em->flush();
+            }
+        }
+    }
 
     /**
      * @return Response

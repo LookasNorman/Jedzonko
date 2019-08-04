@@ -40,10 +40,17 @@ class Recipe
      */
     private $recipePlans;
 
+//    /**
+//     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="recipe")
+//     */
+//    private $recipesIngredients;
+
     /**
-     * @ORM\OneToMany(targetEntity="RecipesIngredients", mappedBy="recipe")
+     * @var string
+     *
+     * @ORM\Column(name="ingredients", type="text")
      */
-    private $recipesIngredients;
+    private $ingredients;
 
     /**
      * @var string
@@ -87,16 +94,6 @@ class Recipe
      */
     private $votes;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->recipePlans = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->recipesIngredients = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->created = new \DateTime();
-
-    }
 
     /**
      * Get id.
@@ -311,40 +308,37 @@ class Recipe
     {
         return $this->recipePlans;
     }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->recipePlans = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created = new \DateTime();
+    }
 
     /**
-     * Add recipesIngredient.
+     * Set ingredients.
      *
-     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
+     * @param string $ingredients
      *
      * @return Recipe
      */
-    public function addRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    public function setIngredients($ingredients)
     {
-        $this->recipesIngredients[] = $recipesIngredient;
+        $this->ingredients = $ingredients;
 
         return $this;
     }
 
     /**
-     * Remove recipesIngredient.
+     * Get ingredients.
      *
-     * @param \AppBundle\Entity\RecipesIngredients $recipesIngredient
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return string
      */
-    public function removeRecipesIngredient(\AppBundle\Entity\RecipesIngredients $recipesIngredient)
+    public function getIngredients()
     {
-        return $this->recipesIngredients->removeElement($recipesIngredient);
-    }
-
-    /**
-     * Get recipesIngredients.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRecipesIngredients()
-    {
-        return $this->recipesIngredients;
+        return $this->ingredients;
     }
 }

@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Ingredients;
 use AppBundle\Entity\Recipe;
 use AppBundle\Entity\RecipesIngredients;
-use AppBundle\Form\RecipesIngredientsType;
 use AppBundle\Form\RecipeType;
 use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,7 +49,7 @@ class RecipeController extends Controller
 
     /**
      * @return Response
-     * @Route("recipe/modify/{id}")
+     * @Route("recipe/modify/{id}", name="recipe_modify")
      */
     public function editAction($id, Request $request): Response
     {
@@ -113,7 +112,7 @@ class RecipeController extends Controller
 
     /**
      * @return Response
-     * @Route ("/recipe/{id}", methods={"POST"})
+     * @Route ("/recipe/{id}", name="recipe_detail", methods={"POST"})
      */
     public function detailsAction(Request $request): Response
     {
@@ -135,14 +134,5 @@ class RecipeController extends Controller
         return $this->redirectToRoute('recipe_details', [
             'id' => $recipeId
         ]);
-    }
-
-    /**
-     * @return Response
-     * @Route ("/recipe/list")
-     */
-    public function listAction(): Response
-    {
-        return $this->render('dashboard/recipe/list.html.twig', []);
     }
 }

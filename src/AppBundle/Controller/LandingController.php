@@ -14,7 +14,7 @@ class LandingController extends Controller
 {
     /**
      * @return Response
-     * @Route("/")
+     * @Route("/", name="main")
      */
     public function indexAction(): Response
     {
@@ -67,7 +67,7 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/about")
+     * @Route ("/about", name="about")
      */
     public function aboutAction(): Response
     {
@@ -76,7 +76,7 @@ class LandingController extends Controller
     
     /**
      * @return Response
-     * @Route ("/contact")
+     * @Route ("/contact", name="contact")
      */
     public function contactAction(): Response
     {

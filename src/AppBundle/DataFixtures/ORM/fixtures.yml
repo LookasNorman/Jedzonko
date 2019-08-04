@@ -1,5 +1,18 @@
 AppBundle\Entity\Plan:
   plan_{1..200}:
-    name (unique): <firstName()>' Plan
+    name (unique): <firstName()>'s Plan
     description: <paragraph($nbSentences = 3, $variableNbSentences = true)>
     created: <dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = 'Europe/Warsaw')>
+
+AppBundle\Entity\Recipe:
+  recipe_{1..200}:
+    name (unique): <firstName()>'s Recipe
+    description: <paragraph($nbSentences = 3, $variableNbSentences = true)>
+    created: <dateTimeBetween($startDate = '-2 years', $endDate = 'now', $timezone = 'Europe/Warsaw')>
+    updated: <dateTimeBetween($created, $endDate = 'now', $timezone = 'Europe/Warsaw')>
+    preparation_time: <numberBetween(10, 90)>
+    votes: <numberBetween(0,10000)>
+    recipe_preparation_method: <paragraph($nbSentences = 3, $variableNbSentences = true)>
+
+
+

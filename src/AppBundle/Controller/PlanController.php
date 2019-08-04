@@ -83,14 +83,20 @@ class PlanController extends Controller
      * @return Response
      * @Route("/plan/list")
      */
-    public function listAction(): Response
+    public function listAction(Request $request): Response
     {
-        $session = $this->get('session');
-        $session->remove('plan_id');
-        $plans = $this->getDoctrine()->getManager()->getRepository(Plan::class)->findAll();
-        return $this->render('dashboard/plan/list.html.twig', [
-            'plans' => $plans
-        ]);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $dql = "SELECT u FROM AppBundle:Plan u  ORDER BY u.name ASC";
+        $query = $em->createQuery($dql);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            50 /*limit per page*/
+        );
+
+        return $this->render('dashboard/plan/list.html.twig', ['pagination' => $pagination]);
     }
 
     /**

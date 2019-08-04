@@ -21,6 +21,8 @@ class LandingController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Recipe');
         $allRecipes = $repository->findAll();
+        var_dump($allRecipes);die();
+
         shuffle($allRecipes);
 
         return $this->render("landing/index.html.twig", [

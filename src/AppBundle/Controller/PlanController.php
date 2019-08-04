@@ -3,13 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\RecipePlan;
-use Faker\Provider\DateTime;
+use AppBundle\Form\PlanType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Plan;
 use AppBundle\Form\RecipePlanType;
@@ -20,7 +19,7 @@ class PlanController extends Controller
 {
     /**
      * @return Response
-     * @Route("/plan/add/")
+     * @Route("/plan/add/", name="add_plan")
      */
     public function addAction(Request $request, Session $session): Response
     {
@@ -55,11 +54,27 @@ class PlanController extends Controller
 
     /**
      * @return Response
-     * @Route("/plan/edit/{id}")
+     * @Route("/plan/edit/{id}", name="edit_plan")
      */
-    public function editAction(): Response
+    public function editAction($id, Request $request): Response
     {
-        return $this->render('dashboard/plan/edit.html.twig', []);
+        $em = $this->getDoctrine()->getManager();
+        $plan = $em->getRepository(Plan::class)->find($id);
+
+        $form = $this->createForm(PlanType::class, $plan);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $plan = $form->getData();
+            $em->persist($plan);
+            $em->flush();
+
+            return $this->redirectToRoute('app_plan_list');
+        }
+
+        return $this->render('dashboard/plan/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -81,7 +96,7 @@ class PlanController extends Controller
 
     /**
      * @return Response
-     * @Route("/plan/list")
+     * @Route("/plan/list", name="plan_list")
      */
     public function listAction(Request $request): Response
     {

@@ -14,5 +14,8 @@ AppBundle\Entity\Recipe:
     votes: <numberBetween(0,10000)>
     recipe_preparation_method: <paragraph($nbSentences = 3, $variableNbSentences = true)>
 
+AppBundle\Entity\Ingredients:
+  ingredients_{1..200}:
+    ingredient: <this will be real ingredient>
 
 

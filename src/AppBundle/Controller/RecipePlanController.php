@@ -19,7 +19,7 @@ class RecipePlanController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 //        $recipesPlans = $em->getRepository(RecipePlan::class)->findBy(['recipe' => null]);
-        $plans = $em->getRepository(Plan::class)->findAll();
+        $plans = $em->createQuery('SELECT p FROM AppBundle:Plan p WHERE p.id >=350')->getResult();
         $daysName = $em->getRepository(DayName::class)->findAll();
         $recipes = $em->getRepository(Recipe::class)->findAll();
         $mealsName = ['śniadanie', 'obiad', 'kolacja'];
@@ -42,13 +42,7 @@ class RecipePlanController extends Controller
                     $em->persist($recipePlan);
                     $em->flush();
                 }
-
             }
-
-
-            var_dump($recipePlan);
-            $em->persist($recipePlan);
-            $em->flush();
         }
     }
 }

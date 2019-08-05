@@ -7,9 +7,11 @@ use AppBundle\Entity\Ingredients;
 use AppBundle\Entity\Page;
 use AppBundle\Entity\Plan;
 use AppBundle\Entity\Recipe;
+use AppBundle\Entity\RecipePlan;
 use Bezhanov\Faker\Provider\Food;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Provider\pl_PL\Person;
@@ -17,10 +19,12 @@ use Faker\Provider\pl_PL\Text;
 
 //use Nelmio\Alice\Fixtures;
 
-
 class LoadFixtures extends Fixture implements ORMFixtureInterface
 {
+
     protected $faker;
+
+    private $referencesIndex = [];
 
     public function load(ObjectManager $manager)
     {
@@ -31,19 +35,6 @@ class LoadFixtures extends Fixture implements ORMFixtureInterface
         $this->faker->addProvider(new Person($this->faker));
         $this->faker->addProvider(new Text($this->faker));
 
-
-        for ($i = 0; $i < 200; $i++) {
-            $ingredient = new Ingredients();
-            $ingredient->setIngredient($this->faker->ingredient());
-            $manager->persist($ingredient);
-        }
-
-        for ($i = 0; $i < 200; $i++) {
-            $ingredient = new Ingredients();
-            $ingredient->setIngredient($this->faker->spice());
-            $manager->persist($ingredient);
-        }
-
         for ($i = 0; $i < 200; $i++) {
             $plan = new Plan();
             $plan->setName('Plan - ' . $this->faker->unique()->name());
@@ -51,6 +42,8 @@ class LoadFixtures extends Fixture implements ORMFixtureInterface
             $plan->setCreated($this->faker->dateTime);
             $manager->persist($plan);
         }
+
+        $manager->flush();
 
         for ($i = 0; $i < 200; $i++) {
             $recipe = new Recipe();
@@ -60,8 +53,12 @@ class LoadFixtures extends Fixture implements ORMFixtureInterface
             $recipe->setPreparationTime($this->faker->numberBetween(1, 300));
             $recipe->setVotes($this->faker->numberBetween(1, 300));
             $recipe->setCreated($this->faker->dateTime());
+            $recipe->setIngredients($this->faker->ingredient() . ' ' . $this->faker->measurement());
+
             $manager->persist($recipe);
         }
+
+        $manager->flush();
 
         for ($i = 0; $i < 7; $i++) {
             $dayName = new DayName();
@@ -69,6 +66,8 @@ class LoadFixtures extends Fixture implements ORMFixtureInterface
             $dayName->setDayOrder($this->faker->numberBetween(7, 1));
             $manager->persist($dayName);
         }
+
+        $manager->flush();
 
         $page = new Page();
         $page->setTitle('O aplikacji');
@@ -83,5 +82,7 @@ class LoadFixtures extends Fixture implements ORMFixtureInterface
         $manager->persist($page);
 
         $manager->flush();
+
     }
+
 }

@@ -211,9 +211,8 @@ class PlanController extends Controller
         foreach ($daysName as $dayName) {
             $recipesDay [][$dayName->getDayName()] = $em
                 ->getRepository(RecipePlan::class)
-                ->findBy(['dayName' => $dayName], ['mealOrder' => 'asc']);
+                ->findBy(['dayName' => $dayName, 'plan' => $id], ['mealOrder' => 'asc']);
         }
-
         return array($plan, $recipesDay);
     }
 }

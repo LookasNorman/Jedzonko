@@ -2,18 +2,14 @@
 
 {% block body %}
     <section class="padding-large bg-light">
-       <h3 class="text-center"> Pisz do nas:<br>
-       Jedzonko za friko<br>
-       Plac Zwycięstwa 1<br>
-       00-950 Warszawa</h3>
+       <h3 class="text-center">{{ contact.title }}</h3>
     </section>
 
     <section class="section-more padding-small">
         <div class="container d-flex justify-content-between">
             <div class="mr-4">
-                <h1 class="pb-3">Lorem ipsum dolor sit amet</h1>
-                <h4 class="pt-1">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua.</h4>
+                <h1 class="pb-3">{{contact.title}}</h1>
+                <h4 class="pt-1">{{contact.description}}</h4>
             </div>
             <div class="ml-4 align-self-center">
                 <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">

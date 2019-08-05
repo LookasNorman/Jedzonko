@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Page;
 use AppBundle\Entity\Recipe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,7 +72,14 @@ class LandingController extends Controller
      */
     public function aboutAction(): Response
     {
-        return $this->render('landing/about.html.twig', []);
+        $page = $this->getDoctrine()->getManager()->getRepository(Page::class)->findOneBy(['slug' => 'about']);
+
+        if($page instanceof Page) {
+            return $this->render('landing/about.html.twig', [
+                'about' => $page
+            ]);
+        }
+        return $this->render('landing/siteInProgress.html.twig', []);
     }
     
     /**
@@ -80,6 +88,13 @@ class LandingController extends Controller
      */
     public function contactAction(): Response
     {
-        return $this->render('landing/contact.html.twig', []);
+        $page = $this->getDoctrine()->getManager()->getRepository(Page::class)->findOneBy(['slug' => 'contact']);
+
+        if($page instanceof Page) {
+            return $this->render('landing/contact.html.twig', [
+                'contact' => $page
+            ]);
+        }
+        return $this->render('landing/siteInProgress.html.twig', []);
     }
 }

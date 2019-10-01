@@ -141,4 +141,14 @@ class DayName
     {
         return $this->recipePlans;
     }
+
+    /**
+     * @param mixed $recipePlans
+     */
+    public function addRecipePlans($recipePlans)
+    {
+        $this->recipePlans[] = $recipePlans;
+    }
+
+
 }

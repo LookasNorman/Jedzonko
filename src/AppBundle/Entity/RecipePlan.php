@@ -124,6 +124,7 @@ class RecipePlan
     public function setRecipe(\AppBundle\Entity\Recipe $recipe = null)
     {
         $this->recipe = $recipe;
+        $recipe->addRecipePlans($this);
 
         return $this;
     }

@@ -341,4 +341,12 @@ class Recipe
     {
         return $this->ingredients;
     }
+
+    /**
+     * @param mixed $recipePlans
+     */
+    public function addRecipePlans($recipePlans)
+    {
+        $this->recipePlans[] = $recipePlans;
+    }
 }
